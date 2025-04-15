@@ -6,6 +6,6 @@ The code is provided in the code.ipynb.
 #
 The  csv dataset, xgbmodel pikle and scaled pikle  are stored in artifacts.
 #
-A website with Flask and Html has been used for prediction. 
+A website with leverage of flask and Html was made . 
 #
 This is the link to the website :http://127.0.0.1:5000
