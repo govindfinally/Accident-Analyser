@@ -1,24 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accident Severity Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        input[type="submit"] {
+            padding: 12px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .prediction-result {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .prediction-result h3 {
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .low-severity {
+            background-color: #28a745;
+        }
+
+        .medium-severity {
+            background-color: #ffc107;
+        }
+
+        .high-severity {
+            background-color: #dc3545;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 16px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h2>Accident Severity Prediction</h2>
-    <form method="POST" action="/predict">
-        {% for key, options in dropdowns.items() %}
-            <label>{{ key.replace("_", " ") }}</label><br>
-            <select name="{{ key }}">
-                {% for opt in options %}
-                    <option value="{{ opt }}">{{ opt }}</option>
-                {% endfor %}
-            </select><br><br>
-        {% endfor %}
-        <input type="submit" value="Predict">
-    </form>
+    <div class="container">
+        <h2>Accident Severity Prediction</h2>
+        <form method="POST" action="/predict">
+            {% for key, options in dropdowns.items() %}
+                <label for="{{ key }}">{{ key.replace("_", " ") }}</label>
+                <select name="{{ key }}" id="{{ key }}">
+                    {% for opt in options %}
+                        <option value="{{ opt }}">{{ opt }}</option>
+                    {% endfor %}
+                </select>
+            {% endfor %}
+            <input type="submit" value="Predict">
+        </form>
 
-    {% if prediction %}
-        <h3 style="color:green">Predicted Accident Severity: {{ prediction }}</h3>
-    {% endif %}
+        {% if prediction %}
+            <div class="prediction-result">
+                {% if prediction == 'Low Severity' %}
+                    <h3 class="low-severity">Predicted Accident Severity: Low Severity</h3>
+                {% elif prediction == 'Medium Severity' %}
+                    <h3 class="medium-severity">Predicted Accident Severity: Medium Severity</h3>
+                {% elif prediction == 'High Severity' %}
+                    <h3 class="high-severity">Predicted Accident Severity: High Severity</h3>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if error_message %}
+            <div class="error-message">{{ error_message }}</div>
+        {% endif %}
+    </div>
 </body>
 </html>
